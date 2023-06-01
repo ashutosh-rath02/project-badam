@@ -1,4 +1,3 @@
-import { useRef } from "react";
 import {
   PDFViewer,
   Document,
@@ -6,6 +5,7 @@ import {
   Text,
   View,
   StyleSheet,
+  PDFDownloadLink,
 } from "@react-pdf/renderer";
 import PropTypes from "prop-types";
 
@@ -33,6 +33,9 @@ const styles = StyleSheet.create({
     marginBottom: 10,
   },
   button: {
+    display: "flex",
+    justifyContent: "center",
+    alignItems: "center",
     height: "50px",
     width: "150px",
     backgroundColor: "#7b61ff",
@@ -42,6 +45,30 @@ const styles = StyleSheet.create({
   },
 });
 
+const MyDocument = ({ name, email, phone, experience, education, skills }) => (
+  <Document>
+    <Page size="A4" style={styles.page}>
+      <View style={styles.container}>
+        <Text style={styles.name}>{name}</Text>
+        <Text style={styles.paragraph}>Email: {email}</Text>
+        <Text style={styles.paragraph}>Phone: {phone}</Text>
+        <Text style={styles.paragraph}>Experience: {experience}</Text>
+        <Text style={styles.paragraph}>Education: {education}</Text>
+        <Text style={styles.paragraph}>Skills: {skills}</Text>
+      </View>
+    </Page>
+  </Document>
+);
+
+MyDocument.propTypes = {
+  name: PropTypes.string.isRequired,
+  email: PropTypes.string.isRequired,
+  phone: PropTypes.string.isRequired,
+  experience: PropTypes.string.isRequired,
+  education: PropTypes.string.isRequired,
+  skills: PropTypes.string.isRequired,
+};
+
 const ResumeGenerator = ({
   name,
   email,
@@ -50,40 +77,37 @@ const ResumeGenerator = ({
   education,
   skills,
 }) => {
-  const resumeRef = useRef(null);
-
-  const handleDownload = () => {
-    const blob = new Blob([resumeRef.current.toBlob()], {
-      type: "application/pdf",
-    });
-    const url = URL.createObjectURL(blob);
-    window.open(url);
-  };
-
   return (
     <div className="h-full w-full flex flex-col items-center justify-center">
       <h1 className="text-2xl font-bold mb-4 p-4 w-full h-5 bg-[#7b61ff] flex justify-center items-center">
         Generated Resume
       </h1>
       <PDFViewer className="h-[900px] w-3/4 rounded-xl">
-        <Document>
-          <Page size="A4" className="h-full w-11/12" ref={resumeRef}>
-            <View style={styles.container}>
-              <Text style={styles.name} className="font-extrabold">
-                {name}
-              </Text>
-              <Text style={styles.paragraph}>Email: {email}</Text>
-              <Text style={styles.paragraph}>Phone: {phone}</Text>
-              <Text style={styles.paragraph}>Experience: {experience}</Text>
-              <Text style={styles.paragraph}>Education: {education}</Text>
-              <Text style={styles.paragraph}>Skills: {skills}</Text>
-            </View>
-          </Page>
-        </Document>
+        <MyDocument
+          name={name}
+          email={email}
+          phone={phone}
+          experience={experience}
+          education={education}
+          skills={skills}
+        />
       </PDFViewer>
-      <button onClick={handleDownload} style={styles.button}>
+      <PDFDownloadLink
+        document={
+          <MyDocument
+            name={name}
+            email={email}
+            phone={phone}
+            experience={experience}
+            education={education}
+            skills={skills}
+          />
+        }
+        fileName="resume.pdf"
+        style={styles.button}
+      >
         Download PDF
-      </button>
+      </PDFDownloadLink>
     </div>
   );
 };
@@ -96,4 +120,5 @@ ResumeGenerator.propTypes = {
   education: PropTypes.string.isRequired,
   skills: PropTypes.string.isRequired,
 };
+
 export default ResumeGenerator;
