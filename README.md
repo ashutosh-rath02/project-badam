@@ -27,6 +27,18 @@ Contributions to project badam are welcome! If you want to contribute to this pr
 
 1. Fork the repository.
 2. Create a new branch: `git checkout -b my-new-branch`
-3. Make your changes and commit them: `git commit -am 'Add some feature'`
-4. Push to the branch: `git push origin my-new-branch`
-5. Submit a pull request.
+3. Make your changes and commit them. Follow the commit standards.
+4. Push your branch to the remote repository: `git push origin my-new-branch`.
+5. Open a pull request on GitHub or your chosen Git hosting platform, comparing your branch to the `main` branch.
+Please ensure that your pull request follows the project's code style and includes relevant tests.
+
+## Commit Standards
+1. Specify the type of the commit using one of the following:
+    - feat: A new feature or enhancement.
+    - fix: A bug fix.
+    - style: Style-related changes (e.g., formatting, code style).
+    - chore: Routine tasks, maintenance, or tooling-related changes.
+2. Start the commit message with a succinct summary that clearly describes the purpose of the commit.
+3. Provide more specific details about the changes made in the commit, using bullet points if necessary.
+4. Reference any related issue(s) in the commit message.
+5. Include any additional notes or information that may be relevant to the commit.
